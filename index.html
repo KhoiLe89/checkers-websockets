@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="checkers">
   <head>
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
   </head>
-  <body>
+  <body ng-controller="checkersCtrl as vm">
     <form id="form">
         <input type="text" id="player1"></input>
         <button onclick="player1Input()" id="player1Button">Player1</button>
@@ -16,7 +16,13 @@
       </form>
   </body>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-  <script type="text/javascript">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.min.js"></script>
+  <script type="text/javascript"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  </script>
+<script>
+  var socket = io();
     var buildBoard = function() {
       for (i=0; i <64; i++) {
         var classname="<div class='square' id = 'square" + i.toString()+ "'></div>"
@@ -26,16 +32,38 @@
     }
     function player1Input() {
       changeColor($("#player1").val(), "black")
+      socket.emit('chat message', $("#player1").val() + ",black");
       event.preventDefault()
     }
     function player2Input() {
       changeColor($("#player2").val(), "red")
+        socket.emit('chat message', $("#player2").val() + ",red");
       event.preventDefault()
     }
     function changeColor(number, color){
       $("#square" + number).css("background-color", color)
       console.log("this function is being used")
     }
+    // socket.on('chat message', function(msg){
+    //   console.log('message: ' + msg);
+    //   var msgArray=msg.split(',')
+    //   changeColor(msgArray[0],msgArray[1])
+    // });
+    angular
+      .module("checkers", [])
+      .controller("checkersCtrl", [
+        checkersCtrlFunction
+      ])
+
+  function checkersCtrlFunction(){
+     console.log("angular")
+    var vm = this
+    vm.playerName = ''
+    vm.color1 = ''
+    socket.on('chat message', function(msg){
+      var msgArray=msg.split(',')
+      changeColor(msgArray[0],msgArray[1])  })
+}
   buildBoard();
   </script>
 </html>
