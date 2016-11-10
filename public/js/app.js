@@ -10,5 +10,4 @@ var buildBoard = function() {
   };
 }
 
-
 module.exports = buildBoard
