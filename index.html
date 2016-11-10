@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./public/css/style.css" type="text/css">
+  </head>
+  <body>
+    <form id="form">
+        <input type="text" id="color-field"></input>
+        <button type="submit"id="set-color">Player1</button>
+      </form>
+      <form id="form">
+        <input type="text" id="color-field"></input>
+        <button type="submit"id="set-color">Player2</button>
+      </form>
+  </body>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script type="text/javascript">
+  var buildBoard = function() {
+    for (i=0; i <64; i++) {
+      var classname="<div class='square' id = 'square" + i.toString()+ "'></div>"
+      console.log(classname)
+      var square = $(classname);
+      $("body").append(square)
+    };
+  }
+  buildBoard();
+  </script>
+</html>
